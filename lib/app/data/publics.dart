@@ -26,6 +26,4 @@ class UniverseController extends GetxController {
 
 class Publics {
   static var controller = Get.put(UniverseController());
-  // path image
-  static const pathImage = "https://image.tmdb.org/t/p/w500";
 }

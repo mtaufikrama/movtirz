@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:movtirz/app/data/function.dart';
 import 'package:movtirz/app/data/publics.dart';
 
-import '../../../routes/app_pages.dart';
 import '../controllers/detail_movie_controller.dart';
 
 class DetailMovieView extends GetView<DetailMovieController> {

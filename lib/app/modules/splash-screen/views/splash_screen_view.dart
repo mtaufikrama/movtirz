@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:movtirz/app/data/function.dart';
+import '../../../data/constant.dart';
 import '../../../data/local_storages.dart';
 import '../../../data/publics.dart';
 import '../../../routes/app_pages.dart';
@@ -56,14 +57,8 @@ class _SplashScreenViewState extends State<SplashScreenView>
     Timer(
       const Duration(seconds: 2),
       () async {
-        await LocalStorages.setSessionID;
-        final controller = Publics.controller;
-        controller.getFavouriteList.value =
-            await Publics.controller.tmdbApi.v3.account.getFavoriteMovies(
-                controller.getSession.value, controller.getAccountID);
-        controller.getWatchList.value = await controller.tmdbApi.v3.account
-            .getMovieWatchList(
-                controller.getSession.value, controller.getAccountID);
+        await LocalStorages.setRequestToken;
+        await MyFx.launch(MyCons.pathSession + LocalStorages.getRequestToken);
         Get.offNamed(Routes.HOME);
       },
     );

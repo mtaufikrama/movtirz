@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:movtirz/app/data/local_storages.dart';
+import 'package:movtirz/app/data/constant.dart';
 
-import 'app/data/publics.dart';
+import 'app/data/local_storages.dart';
 import 'app/routes/app_pages.dart';
 
 void main() async {
@@ -26,7 +25,7 @@ class MyApp extends StatelessWidget {
       title: "MovTirz",
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
-      theme: ThemeData(textTheme: GoogleFonts.robotoTextTheme()),
+      theme: ThemeData(textTheme: MyCons.themeText),
     );
   }
 }

@@ -11,6 +11,7 @@ dependencies:
   get: 4.6.6
   intl: ^0.19.0
   google_fonts: ^6.2.1
+  url_launcher: ^6.3.0
   tmdb_api: ^2.2.0
   like_button: ^2.0.5
   carousel_slider: ^5.0.0

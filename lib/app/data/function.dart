@@ -7,8 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:gif/gif.dart';
+import 'package:movtirz/app/data/constant.dart';
 import 'package:movtirz/app/routes/app_pages.dart';
 import 'package:tmdb_api/tmdb_api.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'publics.dart';
 
@@ -33,7 +35,7 @@ class MyFx {
           Stack(
             fit: StackFit.passthrough,
             children: [
-              image(Publics.pathImage + (movie['poster_path'] ?? '')),
+              image(MyCons.pathImage + (movie['poster_path'] ?? '')),
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -62,13 +64,16 @@ class MyFx {
                           ),
                           likeCountAnimationType: LikeCountAnimationType.part,
                           bubblesSize: 200,
-                          isLiked: (controller.getFavouriteList['results']
-                                      as List<Map>)
-                                  .singleWhere(
-                                      (element) => element['id'] == movie['id'])
-                                  .isNotEmpty
-                              ? true
-                              : false,
+                          isLiked:
+                              (controller.getFavouriteList['results'] as List)
+                                      .singleWhere(
+                                        (element) =>
+                                            element['id'] == movie['id'],
+                                        orElse: () => '',
+                                      )
+                                      .isNotEmpty
+                                  ? true
+                                  : false,
                           circleColor: const CircleColor(
                             start: Colors.pink,
                             end: Colors.blue,
@@ -81,6 +86,7 @@ class MyFx {
                               MediaType.movie,
                               isFavorite: !boolean,
                             );
+                            // print("Favourite : ${!boolean}");
                             controller.getFavouriteList.value = await controller
                                 .tmdbApi.v3.account
                                 .getFavoriteMovies(controller.getSession.value,
@@ -114,10 +120,11 @@ class MyFx {
                                 ),
                           likeCountAnimationType: LikeCountAnimationType.part,
                           bubblesSize: 200,
-                          isLiked: (controller.getWatchList['results']
-                                      as List<Map>)
+                          isLiked: (controller.getWatchList['results'] as List)
                                   .singleWhere(
-                                      (element) => element['id'] == movie['id'])
+                                    (element) => element['id'] == movie['id'],
+                                    orElse: () => '',
+                                  )
                                   .isNotEmpty
                               ? true
                               : false,
@@ -133,6 +140,7 @@ class MyFx {
                               MediaType.movie,
                               shouldAdd: !boolean,
                             );
+                            // print("Watch List : ${!boolean}");
                             controller.getWatchList.value = await controller
                                 .tmdbApi.v3.account
                                 .getMovieWatchList(controller.getSession.value,
@@ -188,6 +196,16 @@ class MyFx {
         }
       },
     );
+  }
+
+  // untuk ngelaunch ke web yang kita tuju
+  static Future<void> launch(String url, {bool isNewTab = false}) async {
+    if (!await launchUrl(
+      Uri.parse(url),
+      webOnlyWindowName: isNewTab ? '_blank' : '_self',
+    )) {
+      throw Exception('Could not launch $url');
+    }
   }
 
   // function agar image dalam asset/network/dll bisa dijalankan dalam satu function
