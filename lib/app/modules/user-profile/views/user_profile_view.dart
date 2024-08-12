@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:tmdb_api/tmdb_api.dart';
 
 import '../../../data/function.dart';
 import '../../../data/publics.dart';
@@ -18,14 +19,21 @@ class UserProfileView extends GetView<UserProfileController> {
       body: ListView(
         children: [
           const Padding(
-            padding: EdgeInsets.symmetric(vertical: 10),
-            child: Text("Favorite Movies"),
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+            child: Text(
+              "Favorite Movies",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
+            ),
           ),
           MyFx.future(
             future: Publics.controller.tmdbApi.v3.account.getFavoriteMovies(
               Publics.controller.getSession.value,
               Publics.controller.getAccountID,
               language: 'id-ID',
+              sortBy: SortBy.createdAtDes,
             ),
             builder: (context, data) {
               final movies = data!['results'] as List;
@@ -33,14 +41,17 @@ class UserProfileView extends GetView<UserProfileController> {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: List.generate(
-                    movies.length > 6 ? 6 : movies.length,
+                    movies.length,
                     (index) {
                       final movie = movies[index];
                       return SizedBox(
                         width: context.width / 3.2,
-                        child: AspectRatio(
-                          aspectRatio: 1 / 2,
-                          child: MyFx.poster(movie),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 5),
+                          child: AspectRatio(
+                            aspectRatio: 1 / 2,
+                            child: MyFx.poster(movie),
+                          ),
                         ),
                       );
                     },
@@ -50,14 +61,21 @@ class UserProfileView extends GetView<UserProfileController> {
             },
           ),
           const Padding(
-            padding: EdgeInsets.symmetric(vertical: 10),
-            child: Text("Watch List"),
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+            child: Text(
+              "Watch List",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
+            ),
           ),
           MyFx.future(
             future: Publics.controller.tmdbApi.v3.account.getMovieWatchList(
               Publics.controller.getSession.value,
               Publics.controller.getAccountID,
               language: 'id-ID',
+              sortBy: SortBy.createdAtDes,
             ),
             builder: (context, data) {
               final movies = data!['results'] as List;
@@ -65,14 +83,17 @@ class UserProfileView extends GetView<UserProfileController> {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: List.generate(
-                    movies.length > 20 ? 20 : movies.length,
+                    movies.length,
                     (index) {
                       final movie = movies[index];
                       return SizedBox(
                         width: context.width / 3.2,
-                        child: AspectRatio(
-                          aspectRatio: 1 / 2,
-                          child: MyFx.poster(movie),
+                        child: Padding(
+                          padding: const EdgeInsets.all(5),
+                          child: AspectRatio(
+                            aspectRatio: 1 / 2,
+                            child: MyFx.poster(movie),
+                          ),
                         ),
                       );
                     },

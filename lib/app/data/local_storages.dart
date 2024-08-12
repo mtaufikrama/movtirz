@@ -26,7 +26,7 @@ class LocalStorages {
           content: Text(e.message.toString()),
           onConfirm: () async {
             await MyFx.launch(
-              MyCons.pathSession + LocalStorages.getRequestToken,
+              MyCons.pathSession + getRequestToken,
             );
           },
         );
@@ -37,7 +37,7 @@ class LocalStorages {
     }
     await boxSessionID.write('session_id', sessionID);
     await boxSessionID.write('exp_session_id', expiredDate);
-    Publics.controller.getSession.value = LocalStorages.getSessionID;
+    Publics.controller.getSession.value = getSessionID;
     return;
   }
 
@@ -53,7 +53,21 @@ class LocalStorages {
     }
     await boxSessionID.write('request_token', requestToken);
     await boxSessionID.write('exp_request_token', expiredDate);
-    Publics.controller.getSession.value = LocalStorages.getSessionID;
+    return;
+  }
+
+  // untuk menghapus request token kedalam local storage
+  static Future<void> get deleteRequestToken async {
+    await boxSessionID.remove('request_token');
+    await boxSessionID.remove('exp_request_token');
+    return;
+  }
+
+  // untuk menghapus sessionID kedalam local storage
+  static Future<void> get deleteSessionID async {
+    await boxSessionID.remove('session_id');
+    await boxSessionID.remove('exp_session_id');
+    Publics.controller.getSession.value = getSessionID;
     return;
   }
 

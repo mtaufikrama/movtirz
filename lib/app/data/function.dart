@@ -8,6 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:gif/gif.dart';
 import 'package:movtirz/app/data/constant.dart';
+import 'package:movtirz/app/modules/detail-movie/controllers/detail_movie_controller.dart';
 import 'package:movtirz/app/routes/app_pages.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -22,13 +23,16 @@ class MyFx {
   }) {
     final controller = Publics.controller;
     return GestureDetector(
-      onTap: () => Get.toNamed(
-        Routes.DETAIL_MOVIE,
-        parameters: {
-          "movie_id": movie['id'].toString(),
-        },
-        arguments: movie,
-      ),
+      onTap: () {
+        Get.delete<DetailMovieController>();
+        Get.toNamed(
+          Routes.DETAIL_MOVIE,
+          parameters: {
+            "movie_id": movie['id'].toString(),
+          },
+          arguments: movie,
+        );
+      },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -138,7 +142,7 @@ class MyFx {
                               controller.getAccountID,
                               movie['id'],
                               MediaType.movie,
-                              shouldAdd: !boolean,
+                              shouldAdd: boolean,
                             );
                             // print("Watch List : ${!boolean}");
                             controller.getWatchList.value = await controller
@@ -161,7 +165,7 @@ class MyFx {
                   child: Padding(
                     padding: const EdgeInsets.all(5),
                     child: Text(
-                      movie['original_title'],
+                      movie['title'],
                       style: const TextStyle(fontWeight: FontWeight.bold),
                       maxLines: 2,
                       textAlign: TextAlign.left,

@@ -58,7 +58,22 @@ class _SplashScreenViewState extends State<SplashScreenView>
       const Duration(seconds: 2),
       () async {
         await LocalStorages.setRequestToken;
-        await MyFx.launch(MyCons.pathSession + LocalStorages.getRequestToken);
+        if (DateTime.parse(LocalStorages.getExpSessionID)
+            .isBefore(DateTime.now())) {
+          await LocalStorages.deleteSessionID;
+          await MyFx.launch(MyCons.pathSession + LocalStorages.getRequestToken);
+        } else {
+          Publics.controller.getFavouriteList.value =
+              await Publics.controller.tmdbApi.v3.account.getFavoriteMovies(
+            Publics.controller.getSession.value,
+            Publics.controller.getAccountID,
+          );
+          Publics.controller.getWatchList.value =
+              await Publics.controller.tmdbApi.v3.account.getMovieWatchList(
+            Publics.controller.getSession.value,
+            Publics.controller.getAccountID,
+          );
+        }
         Get.offNamed(Routes.HOME);
       },
     );
