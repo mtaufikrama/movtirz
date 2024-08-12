@@ -10,12 +10,53 @@ import 'package:gif/gif.dart';
 import 'package:movtirz/app/data/constant.dart';
 import 'package:movtirz/app/modules/detail-movie/controllers/detail_movie_controller.dart';
 import 'package:movtirz/app/routes/app_pages.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'publics.dart';
 
 class MyFx {
+  // function untuk loading pada tampilan poster
+  static shimmerPoster({
+    bool isPoster = false,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.all(5),
+      child: Shimmer(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            AspectRatio(
+              aspectRatio: 3 / 4,
+              child: Container(
+                color: Colors.grey,
+              ),
+            ),
+            isPoster
+                ? Container()
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 5),
+                      Container(
+                        height: 15,
+                        color: Colors.grey,
+                      ),
+                      const SizedBox(height: 5),
+                      Container(
+                        height: 15,
+                        width: 50,
+                        color: Colors.grey,
+                      ),
+                    ],
+                  )
+          ],
+        ),
+      ),
+    );
+  }
+
   // fuction untuk tampilan poster
   static GestureDetector poster(
     dynamic movie, {
@@ -219,6 +260,7 @@ class MyFx {
     BoxFit? fit,
     double? height,
     double? width,
+    double aspectRatio = 3 / 4,
     FilterQuality filterQuality = FilterQuality.low,
   }) {
     if (image.startsWith('assets')) {
@@ -302,14 +344,14 @@ class MyFx {
       } else {
         return CachedNetworkImage(
           imageUrl: image,
-          placeholder: (context, url) => const AspectRatio(
-            aspectRatio: 3 / 4,
-            child: Icon(Icons.image),
+          placeholder: (context, url) => AspectRatio(
+            aspectRatio: aspectRatio,
+            child: const Icon(Icons.image),
           ),
           useOldImageOnUrlChange: true,
-          errorWidget: (context, url, error) => const AspectRatio(
-            aspectRatio: 3 / 4,
-            child: Center(
+          errorWidget: (context, url, error) => AspectRatio(
+            aspectRatio: aspectRatio,
+            child: const Center(
               child: Icon(
                 Icons.error,
               ),

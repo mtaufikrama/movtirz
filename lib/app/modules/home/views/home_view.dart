@@ -43,39 +43,64 @@ class HomeView extends GetView<HomeController> {
           return controller.sessionID.value.isNotEmpty
               ? ListView(
                   children: [
-                    const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10),
-                      child: Text(
-                        "Now Playing",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    MyFx.future(
-                      future: Publics.controller.tmdbApi.v3.movies
-                          .getNowPlaying(language: 'id-ID'),
-                      builder: (context, data) {
-                        final movies = data!['results'] as List;
-                        return CarouselSlider.builder(
-                          itemCount: movies.length,
-                          itemBuilder: (context, index, realIndex) {
-                            final movie = movies[index];
-                            return MyFx.poster(movie, isPoster: true);
-                          },
-                          options: CarouselOptions(
-                            aspectRatio: 4 / 3,
-                            viewportFraction: 0.5,
-                            autoPlay: true,
-                            enlargeCenterPage: true,
-                            disableCenter: true,
-                            pauseAutoPlayInFiniteScroll: true,
-                            // padEnds: false,
-                            // enableInfiniteScroll: false,
+                    Container(
+                      color: MyCons.warnaSekunder,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                            child: Text(
+                              "Now Playing",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
                           ),
-                        );
-                      },
+                          MyFx.future(
+                            future: Publics.controller.tmdbApi.v3.movies
+                                .getNowPlaying(language: 'id-ID'),
+                            builder: (context, data) {
+                              final movies = data!['results'] as List;
+                              return CarouselSlider.builder(
+                                itemCount: movies.length,
+                                itemBuilder: (context, index, realIndex) {
+                                  final movie = movies[index];
+                                  return MyFx.poster(movie, isPoster: true);
+                                },
+                                options: CarouselOptions(
+                                  aspectRatio: 4 / 3,
+                                  viewportFraction: 0.5,
+                                  autoPlay: true,
+                                  enlargeCenterPage: true,
+                                  disableCenter: true,
+                                  pauseAutoPlayInFiniteScroll: true,
+                                  // padEnds: false,
+                                  // enableInfiniteScroll: false,
+                                ),
+                              );
+                            },
+                            failedBuilder: (context, data) {
+                              return CarouselSlider.builder(
+                                itemCount: 3,
+                                itemBuilder: (context, index, realIndex) {
+                                  return MyFx.shimmerPoster(isPoster: true);
+                                },
+                                options: CarouselOptions(
+                                  aspectRatio: 4 / 3,
+                                  viewportFraction: 0.5,
+                                  autoPlay: true,
+                                  enlargeCenterPage: true,
+                                  disableCenter: true,
+                                  pauseAutoPlayInFiniteScroll: true,
+                                ),
+                              );
+                            },
+                          ),
+                          const SizedBox(height: 10),
+                        ],
+                      ),
                     ),
                     const Padding(
                       padding: EdgeInsets.symmetric(vertical: 10),
@@ -119,6 +144,21 @@ class HomeView extends GetView<HomeController> {
                                 child: MyFx.poster(movie),
                               );
                             }
+                          },
+                        );
+                      },
+                      failedBuilder: (context, data) {
+                        return GridView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            childAspectRatio: 1 / 2,
+                          ),
+                          itemCount: 9,
+                          itemBuilder: (context, index) {
+                            return MyFx.shimmerPoster();
                           },
                         );
                       },

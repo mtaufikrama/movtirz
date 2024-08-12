@@ -15,8 +15,9 @@ class DetailMovieView extends GetView<DetailMovieController> {
       child: Scaffold(
         body: Stack(
           children: [
-            MyFx.image(MyCons.pathImage +
-                controller.movie['backdrop_path'].toString()),
+            MyFx.image(
+                MyCons.pathImage + controller.movie['backdrop_path'].toString(),
+                aspectRatio: 16 / 9),
             ListView(
               children: [
                 const AspectRatio(aspectRatio: 16 / 8),
@@ -42,16 +43,19 @@ class DetailMovieView extends GetView<DetailMovieController> {
                           fontSize: 20,
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: Text(
-                          controller.movie['overview'].toString(),
-                          textAlign: TextAlign.justify,
-                          style: const TextStyle(
-                            fontSize: 15,
-                          ),
-                        ),
-                      ),
+                      (controller.movie['overview'] as String).isNotEmpty
+                          ? Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 10),
+                              child: Text(
+                                controller.movie['overview'].toString(),
+                                textAlign: TextAlign.justify,
+                                style: const TextStyle(
+                                  fontSize: 13,
+                                ),
+                              ),
+                            )
+                          : const SizedBox(height: 5),
                       MyFx.future(
                         future: Publics.controller.tmdbApi.v3.movies
                             .getSimilar(int.parse(controller.movieID ?? "0")),
@@ -72,6 +76,21 @@ class DetailMovieView extends GetView<DetailMovieController> {
                                 padding: const EdgeInsets.all(5),
                                 child: MyFx.poster(movie),
                               );
+                            },
+                          );
+                        },
+                        failedBuilder: (context, data) {
+                          return GridView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                              childAspectRatio: 1 / 2,
+                            ),
+                            itemCount: 9,
+                            itemBuilder: (context, index) {
+                              return MyFx.shimmerPoster();
                             },
                           );
                         },
