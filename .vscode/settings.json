@@ -1,3 +1,7 @@
 {
-  "cmake.sourceDirectory": "C:/Users/mtauf/Documents/Projects/movtirz/linux"
+  "cmake.sourceDirectory": "C:/Users/mtauf/Documents/Projects/movtirz/linux",
+  "flutterTools.displayGetxContextMenu": true,
+  "flutterTools.displayMobxContextMenu": false,
+  "flutterTools.displayRiverpodContextMenu": false,
+  "flutterTools.displayModularContextMenu": false
 }

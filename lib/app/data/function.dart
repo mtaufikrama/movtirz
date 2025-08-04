@@ -4,7 +4,7 @@ import 'dart:io' as io;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:like_button/like_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+// import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:gif/gif.dart';
 import 'package:movtirz/app/data/constant.dart';
@@ -18,7 +18,7 @@ import 'publics.dart';
 
 class MyFx {
   // function untuk loading pada tampilan poster
-  static shimmerPoster({
+  static Padding shimmerPoster({
     bool isPoster = false,
   }) {
     return Padding(
@@ -265,14 +265,15 @@ class MyFx {
   }) {
     if (image.startsWith('assets')) {
       final ext = image.substring(image.length - 4);
-      if (ext == '.svg') {
-        return SvgPicture.asset(
-          image,
-          fit: fit ?? BoxFit.contain,
-          height: height,
-          width: width,
-        );
-      } else if (ext == '.gif') {
+      // if (ext == '.svg') {
+      //   return SvgPicture.asset(
+      //     image,
+      //     fit: fit ?? BoxFit.contain,
+      //     height: height,
+      //     width: width,
+      //   );
+      // } else
+      if (ext == '.gif') {
         return Gif(
           image: AssetImage(image),
           color: color,
@@ -295,14 +296,15 @@ class MyFx {
     if (!GetPlatform.isWeb) {
       if (io.File(image).existsSync()) {
         final ext = image.substring(image.length - 4);
-        if (ext == '.svg') {
-          return SvgPicture.file(
-            io.File(image),
-            fit: fit ?? BoxFit.contain,
-            height: height,
-            width: width,
-          );
-        } else if (ext == '.gif') {
+        // if (ext == '.svg') {
+        //   return SvgPicture.file(
+        //     io.File(image),
+        //     fit: fit ?? BoxFit.contain,
+        //     height: height,
+        //     width: width,
+        //   );
+        // } else
+        if (ext == '.gif') {
           return Gif(
             image: FileImage(io.File(image)),
             color: color,
@@ -325,14 +327,15 @@ class MyFx {
     }
     if (image.startsWith('http')) {
       final ext = image.substring(image.length - 4);
-      if (ext == '.svg') {
-        return SvgPicture.network(
-          image,
-          fit: fit ?? BoxFit.contain,
-          height: height,
-          width: width,
-        );
-      } else if (ext == '.gif') {
+      // if (ext == '.svg') {
+      //   return SvgPicture.network(
+      //     image,
+      //     fit: fit ?? BoxFit.contain,
+      //     height: height,
+      //     width: width,
+      //   );
+      // } else
+      if (ext == '.gif') {
         return Gif(
           image: NetworkImage(image),
           color: color,
