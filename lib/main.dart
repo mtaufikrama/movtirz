@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:movtirz/app/data/constant.dart';
 
-import 'app/data/local_storages.dart';
 import 'app/routes/app_pages.dart';
 
 void main() async {
